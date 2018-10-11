@@ -27,14 +27,22 @@
           };
         }
 
+        // this.handleChange = this.handleChange.bind(this);
+
+        handleChange(event) {
+          this.setState({
+            content: event.target.value
+          });
+        }
+
         render() {
           return (
             <div>
               <h1 className="main-h1" >FCC Markdown Previewer</h1>
               <div>
-                <textarea rows="40" cols="100" value={this.state.content} id="editor" />
+                <textarea rows="40" cols="100" value={this.state.content} id="editor" onChange={this.handleChange.bind(this)} />
               </div>
-              <div dangerouslySetInnerHTML={{__html: marked(this.state.content)}}>
+              <div id="preview" dangerouslySetInnerHTML={{__html: marked(this.state.content)}}>
               </div>
             </div>
           );
