@@ -23,7 +23,7 @@
         constructor(props) {
            super(props);
           this.state = {
-            editor: '# Welcome to my Markdown Previewer\n\n## This is a H2 heading\n\nMy website is [The Coding Hamster](https://thecodinghamster.com).\n\n```\n\n//Here is some code (multi line)\n\nfunction myFunction(x, y) {\n\nreturn x + y;\n\n}\n\n```\n\nHere is some inline code `<p>Hello></p>`\n\nThis is a list:\n\n1. First item\n\n2. Second item\n\n3. Third item\n\n4. Fourth item\n\nMy favourite quote:\n\n> “Where ignorance is our master, there is no possibility of real peace.”\n\n**Yoshi!**\n\n![Yoshi](https://upload.wikimedia.org/wikipedia/en/3/39/YoshiMarioParty9.png)'
+            content: '# Welcome to my Markdown Previewer\n\n## This is a H2 heading\n\nMy website is [The Coding Hamster](https://thecodinghamster.com).\n\n```\n\n//Here is some code (multi line)\n\nfunction myFunction(x, y) {\n\nreturn x + y;\n\n}\n\n```\n\nHere is some inline code `<p>Hello></p>`\n\nThis is a list:\n\n1. First item\n\n2. Second item\n\n3. Third item\n\n4. Fourth item\n\nMy favourite quote:\n\n> “Where ignorance is our master, there is no possibility of real peace.”\n\n**Yoshi!**\n\n![Yoshi](https://upload.wikimedia.org/wikipedia/en/3/39/YoshiMarioParty9.png)'
           };
         }
 
@@ -31,7 +31,7 @@
           return (
             <div>
               <h1 className="main-h1" >FCC Markdown Previewer</h1>
-              <textarea rows="50" cols="100" value={this.state.editor} id="editor" />
+              <textarea rows="50" cols="100" value={this.state.content} id="editor" />
             </div>
           );
         }
