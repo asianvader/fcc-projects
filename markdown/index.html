@@ -15,39 +15,28 @@
   <body>
     <!-- HTML -->
     <div id="root"></div>
-    <div id="content" ></div>
-
-    <script>
-    document.getElementById('content').innerHTML =
-    marked('# Welcome to my Markdown Previewer\n\n## This is a H2 heading\n\nMy website is [The Coding Hamster](https://thecodinghamster.com).\n\n```\n\n//Here is some code (multi line)\n\nfunction myFunction(x, y) {\n\nreturn x + y;\n\n}\n\n```\n\nHere is some inline code `<p>Hello></p>`\n\nThis is a list:\n\n1. First item\n\n2. Second item\n\n3. Third item\n\n4. Fourth item\n\nMy favourite quote:\n\n> “Where ignorance is our master, there is no possibility of real peace.”\n\n**Yoshi!**\n\n![Yoshi](https://upload.wikimedia.org/wikipedia/en/3/39/YoshiMarioParty9.png)');
-
-    </script>
 
     <!-- REACT -->
     <script type="text/babel">
-
-
 
       class Editor extends React.Component {
         constructor(props) {
            super(props);
           this.state = {
-            name: "Phoebe"
+            editor: '# Welcome to my Markdown Previewer\n\n## This is a H2 heading\n\nMy website is [The Coding Hamster](https://thecodinghamster.com).\n\n```\n\n//Here is some code (multi line)\n\nfunction myFunction(x, y) {\n\nreturn x + y;\n\n}\n\n```\n\nHere is some inline code `<p>Hello></p>`\n\nThis is a list:\n\n1. First item\n\n2. Second item\n\n3. Third item\n\n4. Fourth item\n\nMy favourite quote:\n\n> “Where ignorance is our master, there is no possibility of real peace.”\n\n**Yoshi!**\n\n![Yoshi](https://upload.wikimedia.org/wikipedia/en/3/39/YoshiMarioParty9.png)'
           };
         }
 
         render() {
           return (
             <div>
-              <h1>My name is {this.state.name}</h1>
+              <textarea id="editor" value={this.state.editor}></textarea>
             </div>
           );
         }
       };
 
       ReactDOM.render(<Editor />, document.getElementById('root'));
-
-
 
     </script>
 
