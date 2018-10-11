@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Hello World</title>
+    <title>Markdown Editor</title>
     <!-- REACT -->
     <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
@@ -31,7 +31,11 @@
           return (
             <div>
               <h1 className="main-h1" >FCC Markdown Previewer</h1>
-              <textarea rows="50" cols="100" value={this.state.content} id="editor" />
+              <div>
+                <textarea rows="40" cols="100" value={this.state.content} id="editor" />
+              </div>
+              <div dangerouslySetInnerHTML={{__html: marked(this.state.content)}}>
+              </div>
             </div>
           );
         }
