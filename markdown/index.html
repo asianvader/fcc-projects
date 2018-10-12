@@ -50,6 +50,7 @@
       }
 
     </style>
+
   </head>
 
   <body>
@@ -85,13 +86,11 @@
               <div className="div-center">
                 <div className="heading">Editor</div>
                   <textarea rows="13" cols="60" value={this.state.content} id="editor" onChange={this.handleChange.bind(this)} />
-                </div>
-
-
+              </div>
               <div className="div-center">
                 <div className="heading">Previewer</div>
-                <div className="div-preview" id="preview" dangerouslySetInnerHTML={{__html: marked(this.state.content)}}>
-                </div>
+                  <div className="div-preview" id="preview" dangerouslySetInnerHTML={{__html: marked(this.state.content)}}>
+                  </div>
               </div>
             </div>
           );
