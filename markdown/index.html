@@ -21,21 +21,32 @@
       .mainh1 {
         text-align: center;
         text-transform: uppercase;
+        text-decoration: underline;
       }
 
       .div-center {
-        padding: 10px 10px 10px 10px;
         text-align: center;
       }
 
       textarea {
+        padding: 0 15px 10px 15px;
         font-size: 1rem;
+        margin-bottom: 30px;
       }
 
       .div-preview {
+        padding: 0 15px 10px 15px;
         text-align: left;
         border: 1px solid black;
         background-color: white;
+        margin-left: 100px;
+        margin-right: 100px;
+      }
+
+      .heading {
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-transform: uppercase;
       }
 
     </style>
@@ -72,9 +83,13 @@
             <div>
               <h1 className="mainh1">FCC Markdown Previewer</h1>
               <div className="div-center">
-                <textarea rows="15" cols="60" value={this.state.content} id="editor" onChange={this.handleChange.bind(this)} />
-              </div>
+                <div className="heading">Editor</div>
+                  <textarea rows="13" cols="60" value={this.state.content} id="editor" onChange={this.handleChange.bind(this)} />
+                </div>
+
+
               <div className="div-center">
+                <div className="heading">Previewer</div>
                 <div className="div-preview" id="preview" dangerouslySetInnerHTML={{__html: marked(this.state.content)}}>
                 </div>
               </div>
