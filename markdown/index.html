@@ -9,6 +9,36 @@
     <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
     <!-- markdown -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.5.0/marked.js"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
+
+    <style>
+      body {
+        background-color: #D2EAFF;
+        font-family: 'Raleway', sans-serif;
+      }
+
+      .mainh1 {
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      .div-center {
+        padding: 10px 10px 10px 10px;
+        text-align: center;
+      }
+
+      textarea {
+        font-size: 1rem;
+      }
+
+      .div-preview {
+        text-align: left;
+        border: 1px solid black;
+        background-color: white;
+      }
+
+    </style>
   </head>
 
   <body>
@@ -27,7 +57,7 @@
         constructor(props) {
           super(props);
           this.state = {
-            content: '# Welcome to my Markdown Previewer\n\n## This is a H2 heading\n\nMy website is [The Coding Hamster](https://thecodinghamster.com).\n\n```\n\n//Here is some code (multi line)\n\nfunction myFunction(x, y) {\n\nreturn x + y;\n\n}\n\n```\n\nHere is some inline code `<p>Hello></p>`\n\nThis is a list:\n\n1. First item\n\n2. Second item\n\n3. Third item\n\n4. Fourth item\n\nMy favourite quote:\n\n> “Where ignorance is our master, there is no possibility of real peace.”\n\n**Yoshi!**\n\n![Yoshi](https://upload.wikimedia.org/wikipedia/en/3/39/YoshiMarioParty9.png)'
+            content: '# Welcome to my Markdown Previewer\n\n## Give it a try, just type/delete\n\nMy website is [The Coding Hamster](https://thecodinghamster.com).\n\n```\n\n//Here is some code (multi line)\n\nfunction myFunction(x, y) {\n\nreturn x + y;\n\n}\n\n```\n\nHere is some inline code `<p>Hello></p>`\n\nThis is a list:\n\n1. First item\n\n2. Second item\n\n3. Third item\n\n4. Fourth item\n\nMy favourite quote:\n\n> “Where ignorance is our master, there is no possibility of real peace.”\n\n**Yoshi!**\n\n![Yoshi](https://upload.wikimedia.org/wikipedia/en/3/39/YoshiMarioParty9.png)'
           };
         }
 
@@ -40,11 +70,13 @@
         render() {
           return (
             <div>
-              <h1>FCC Markdown Previewer</h1>
-              <div>
-                <textarea rows="40" cols="60" value={this.state.content} id="editor" onChange={this.handleChange.bind(this)} />
+              <h1 className="mainh1">FCC Markdown Previewer</h1>
+              <div className="div-center">
+                <textarea rows="15" cols="60" value={this.state.content} id="editor" onChange={this.handleChange.bind(this)} />
               </div>
-              <div id="preview" dangerouslySetInnerHTML={{__html: marked(this.state.content)}}>
+              <div className="div-center">
+                <div className="div-preview" id="preview" dangerouslySetInnerHTML={{__html: marked(this.state.content)}}>
+                </div>
               </div>
             </div>
           );
