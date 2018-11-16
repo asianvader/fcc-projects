@@ -24,13 +24,12 @@
 
   <body>
     <!-- HTML -->
-    <div id="drum-machine"></div>
+    <div id="root"></div>
 
     <!-- REACT -->
     <script type="text/babel">
 
-
-    const sounds = [{
+    const SOUNDS = [{
         keyCode: 81,
         keyTrigger: 'Q',
         id: 'Heater-1',
@@ -82,125 +81,78 @@
       constructor(props) {
         super(props);
         this.state = {
-          currentKey: '',
-          url: '',
-          id: '',
-          keyTrigger: ''
+          clipName: ''
         };
       }
 
+
       componentDidMount() {
-      document.addEventListener('keydown', this.handleKeyPress);
-      console.log('keydown');
-      }
+        document.addEventListener('keydown', this.handleKeyPress);
+        console.log('keydown');
+       }
 
       componentWillUnmount() {
-      document.removeEventListener('keydown', this.handleKeyPress);
-      console.log('unmount keydown');
+        document.removeEventListener('keydown', this.handleKeyPress);
+        console.log('unmount keydown');
       }
 
       handleKeyPress = (event) => {
-        this.setState({
-          currentKey: '',
-          url: '',
-          id: ''
-        });
-        console.log('reset state');
-        for (let i = 0; i < sounds.length; i++) {
-          if (event.keyCode === sounds[i].keyCode) {
+        let key = '';
+        for (let i = 0; i < SOUNDS.length; i++) {
+          if (event.keyCode === SOUNDS[i].keyCode) {
             this.setState({
-              currentKey: event.keyCode,
-              url: sounds[i].url,
-              id: sounds[i].id,
-              keyTrigger: sounds[i].keyTrigger
+              clipName: SOUNDS[i].id,
             });
-            console.log('set state');
-            console.log(this.state.url);
+            key = SOUNDS[i].keyTrigger;
+            console.log(key);
           }
         };
-        let audio = document.getElementById(this.state.keyTrigger);
+        let audio = document.getElementById(key);
         audio.play();
         console.log('play');
       };
 
-      mouseOverHandler = (event) => {
-        console.log("event " + event.type);
-        console.log("event " + event.target.id);
-        console.log("this " + this);
-        for (let i = 0; i < sounds.length; i++) {
-          if (sounds[i].id === event.target.id) {
-            this.setState({
-              currentKey: sounds[i].keyCode,
-              url: sounds[i].url,
-              id: event.target.id,
-              keyTrigger: sounds[i].keyTrigger
-            });
-
-          }
-        }
-      };
-
       clickToPlayHandler = () => {
-        console.log("change state");
-        console.log(this.state.keyTrigger);
-        console.log("stateurl " + this.state.url)
-        let audio = document.getElementById(this.state.keyTrigger);
-        audio.play();
-        console.log("play");
+
+        console.log('clicked!');
       };
 
       render() {
         console.log('render');
         return (
-          <div>
-          <button className="drum-pad" id='Heater-1'
-            onClick={this.clickToPlayHandler}
-            onMouseOver={this.mouseOverHandler}>Q
-            <audio className='clip' id="Q" src={this.state.url}></audio>
-          </button>
-          <div className="drum-pad" id='Heater-2'
-            onClick={this.clickToPlayHandler}
-            onMouseOver={this.mouseOverHandler}>W
-            <audio className='clip' id="W" src={this.state.url}></audio></div>
-          <div className="drum-pad" id='Heater-3'
-            onClick={this.clickToPlayHandler}
-            onMouseOver={this.mouseOverHandler}>E
-            <audio className='clip' id="E" src={this.state.url}></audio></div>
-          <div className="drum-pad" id='Heater-4'
-            onClick={this.clickToPlayHandler}
-            onMouseOver={this.mouseOverHandler}>A
-            <audio className='clip' id="A" src={this.state.url}></audio></div>
-          <div className="drum-pad" id='Clap'
-            onClick={this.clickToPlayHandler}
-            onMouseOver={this.mouseOverHandler}>S
-            <audio className='clip' id="S" src={this.state.url}></audio></div>
-          <div className="drum-pad" id='Open-HH'
-            onClick={this.clickToPlayHandler}
-            onMouseOver={this.mouseOverHandler}>D
-            <audio className='clip' id="D" src={this.state.url}></audio></div>
-          <div className="drum-pad" id="Kick-n'-Hat"
-            onClick={this.clickToPlayHandler}
-            onMouseOver={this.mouseOverHandler}>Z
-            <audio className='clip' id="Z" src={this.state.url}></audio></div>
-          <div className="drum-pad" id='Kick'
-            onClick={this.clickToPlayHandler}
-            onMouseOver={this.mouseOverHandler}>X
-            <audio className='clip' id="X" src={this.state.url}></audio></div>
-          <div className="drum-pad" id='Closed-HH'
-            onClick={this.clickToPlayHandler}
-            onMouseOver={this.mouseOverHandler}>C
-            <audio className='clip' id="C" src={this.state.url}></audio></div>
-
-            <div id="display">
-              {this.state.id}
+          <div id="drum-machine">
+            {SOUNDS.map((objectmapped, index) => {
+              return (
+                <DrumPad
+                  padname={objectmapped.keyTrigger}
+                  key={index}
+                  clicktoplay={this.clickToPlayHandler}
+                  url={objectmapped.url}
+                  keycode={objectmapped.keyCode}
+                  description={objectmapped.id}/>
+                )
+              })
+            }
+            <div id='display'>
+              {this.state.clipName}
             </div>
-
+            <button onClick={this.clickToPlayHandler}>Test</button>
           </div>
         );
       }
     }
 
-      ReactDOM.render(<App />, document.getElementById('drum-machine'));
+    const DrumPad = (props) => {
+      return (
+        <button className="drum-pad"
+          id={props.description}
+          onClick={props.clicktoplay}>{props.padname}
+          <audio className="clip" id={props.padname} src={props.url}></audio>
+        </button>
+      );
+    }
+
+      ReactDOM.render(<App />, document.getElementById('root'));
 
     </script>
 
