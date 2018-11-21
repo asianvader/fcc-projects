@@ -67,12 +67,27 @@
       operator: '%'
     }];
 
+    let numbers = [];
+
     class App extends React.Component {
       constructor(props) {
         super(props);
         this.state = {
-          display: ''
+          display: []
         };
+      }
+
+      numberClickedHandler = (event) => {
+        for (let i = 0; i < CAL_NUMBERS.length; i++) {
+          if (event.target.id === CAL_NUMBERS[i].id) {
+            numbers.push(CAL_NUMBERS[i].number);
+          }
+        }
+        console.log(numbers);
+        this.setState({
+          display: numbers
+        });
+
       }
 
       render() {
@@ -89,6 +104,7 @@
                   PadNum={numMapped.number}
                   id={numMapped.id}
                   key={index}
+                  numclick={this.numberClickedHandler}
                   />
               )
             })
@@ -131,7 +147,8 @@
     const NumPad = (props) => {
       return (
         <button
-          id={props.id}>
+          id={props.id}
+          onClick={props.numclick}>
           {props.PadNum}
         </button>
       )
