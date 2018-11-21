@@ -16,6 +16,42 @@
       body {
         font-family: 'Raleway', sans-serif;
         padding-top: 50px;
+        text-align: center;
+        background-color: #3E7DDD;
+      }
+
+      .drum-pad {
+        margin: 10px 10px 10px 10px;
+        max-width:
+      }
+
+      button {
+        height: 100px;
+        width: 100px;
+        font-size: 2rem;
+        border-radius: 10%;
+        border: solid black 1px;
+        box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.75);
+        background-color: #E53259;
+        color: white;
+
+      }
+
+      button:focus {
+        outline:0;
+      }
+
+      button:hover {
+        opacity: 0.7;
+      }
+
+      #drum-machine {
+        border: solid #E53259 5px;
+        background-color: #5899F3;
+        border-radius: 2%;
+        max-width: 400px;
+        margin: 0 auto;
+        padding-bottom: 30px;
       }
 
     </style>
@@ -85,11 +121,10 @@
         };
       }
 
-
       componentDidMount() {
         document.addEventListener('keydown', this.handleKeyPress);
         console.log('keydown');
-       }
+      }
 
       componentWillUnmount() {
         document.removeEventListener('keydown', this.handleKeyPress);
@@ -104,23 +139,31 @@
               clipName: SOUNDS[i].id,
             });
             key = SOUNDS[i].keyTrigger;
-            console.log(key);
           }
         };
         let audio = document.getElementById(key);
         audio.play();
-        console.log('play');
       };
 
-      clickToPlayHandler = () => {
-
-        console.log('clicked!');
+      clickToPlayHandler = (event) => {
+        let key = '';
+        this.setState({
+          clipName: event.target.id
+        });
+        for (let i = 0; i < SOUNDS.length; i++) {
+          if (event.target.id === SOUNDS[i].id) {
+            key = SOUNDS[i].keyTrigger;
+          }
+        };
+        let audio = document.getElementById(key);
+        audio.play();
       };
 
       render() {
         console.log('render');
         return (
           <div id="drum-machine">
+            <h1>Drum Machine</h1>
             {SOUNDS.map((objectmapped, index) => {
               return (
                 <DrumPad
@@ -134,19 +177,22 @@
               })
             }
             <div id='display'>
-              {this.state.clipName}
+              <h2>Sound name: {this.state.clipName}</h2>
             </div>
-            <button onClick={this.clickToPlayHandler}>Test</button>
           </div>
         );
       }
     }
-
+/**
+* Drum pad component
+* Drum pad plays sound when you click on button
+**/
     const DrumPad = (props) => {
       return (
         <button className="drum-pad"
           id={props.description}
-          onClick={props.clicktoplay}>{props.padname}
+          onClick={props.clicktoplay}>
+          {props.padname}
           <audio className="clip" id={props.padname} src={props.url}></audio>
         </button>
       );
