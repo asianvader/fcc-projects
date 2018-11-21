@@ -16,18 +16,74 @@
     <!-- REACT -->
     <script type="text/babel">
 
+    const CAL_NUMBERS = [{
+      id: 'Num-0',
+      number: 0
+    }, {
+      id: 'Num-1',
+      number: 1
+    }, {
+      id: 'Num-2',
+      number: 2
+    }, {
+      id: 'Num-3',
+      number: 3
+    }, {
+      id: 'Num-4',
+      number: 4
+    }, {
+      id: 'Num-5',
+      number: 5
+    }, {
+      id: 'Num-6',
+      number: 6
+    }, {
+      id: 'Num-7',
+      number: 7
+    }, {
+      id: 'Num-8',
+      number: 8
+    }, {
+      id: 'Num-9',
+      number: 9
+    }];
+
     class App extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {
+          display: ''
+        };
+      }
 
       render() {
         return (
           <div>
-            <h1>Hello</h1>
+            {CAL_NUMBERS.map((numMapped, index) => {
+              return (
+                <NumPad
+                  PadNum={numMapped.number}
+                  id={numMapped.id}
+                  key={index}
+                  />
+              )
+            })
+
+            }
           </div>
         );
       }
     }
 
-      ReactDOM.render(<App />, document.getElementById('root'));
+    const NumPad = (props) => {
+      return (
+        <button
+          id={props.id}>
+          {props.PadNum}
+        </button>
+      )
+    }
+    ReactDOM.render(<App />, document.getElementById('root'));
 
     </script>
 
