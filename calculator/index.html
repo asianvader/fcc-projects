@@ -7,6 +7,11 @@
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
 
+    <style>
+      body {
+        padding-top: 50px;
+      }
+    </style>
   </head>
 
   <body>
@@ -17,48 +22,48 @@
     <script type="text/babel">
 
     const CAL_NUMBERS = [{
-      id: 'Num-0',
+      id: 'zero',
       number: 0
     }, {
-      id: 'Num-1',
+      id: 'one',
       number: 1
     }, {
-      id: 'Num-2',
+      id: 'two',
       number: 2
     }, {
-      id: 'Num-3',
+      id: 'three',
       number: 3
     }, {
-      id: 'Num-4',
+      id: 'four',
       number: 4
     }, {
-      id: 'Num-5',
+      id: 'five',
       number: 5
     }, {
-      id: 'Num-6',
+      id: 'six',
       number: 6
     }, {
-      id: 'Num-7',
+      id: 'seven',
       number: 7
     }, {
-      id: 'Num-8',
+      id: 'eight',
       number: 8
     }, {
-      id: 'Num-9',
+      id: 'nine',
       number: 9
     }];
 
     const ARITHMETIC_OPERATOR = [{
-      id: 'Op +',
+      id: 'add',
       operator: '+'
     }, {
-      id: 'Op -',
+      id: 'subtract',
       operator: '-'
     }, {
-      id: 'Op x',
+      id: 'multiply',
       operator: 'x'
     }, {
-      id: 'Op %',
+      id: 'divide',
       operator: '%'
     }];
 
@@ -73,6 +78,10 @@
       render() {
         return (
           <div>
+            <div id="display">
+              {this.state.display}
+            </div>
+
             <div>
             {CAL_NUMBERS.map((numMapped, index) => {
               return (
@@ -97,6 +106,11 @@
               )
             })
             }
+            <div>
+              <button
+                id="decimal">.
+              </button>
+            </div>
             </div>
             <div>
               <button
@@ -105,7 +119,7 @@
             </div>
             <div>
               <button
-                id="reset">A/C
+                id="clear">A/C
               </button>
             </div>
 
