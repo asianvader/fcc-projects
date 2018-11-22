@@ -67,12 +67,11 @@
       operator: '/'
     }];
 
-    let numbers = [];
-    let operator = '';
-    let display = [];
-    let total = [];
-    let joinNums = [];
-    let userinput = 0;
+    let numbers = [],
+        operator = '',
+        display = [],
+        total = [],
+        joinNums = []
 
 
     class App extends React.Component {
@@ -84,44 +83,20 @@
         };
       }
 
-
       numberClickedHandler = (event) => {
-        // if (event.target.id === 'zero' && numbers.length[0] === 0) {
-        //   console.log('true');
-        //   this.setState({
-        //     display: 0
-        //   });
-        // } else {
-        //   for (let i = 0; i < CAL_NUMBERS.length; i++) {
-        //     if (event.target.id === CAL_NUMBERS[i].id) {
-        //       display.push(CAL_NUMBERS[i].number);
-        //       numbers.push(CAL_NUMBERS[i].number);
-        //     }
-        //   }
-        //   console.log('display: ', display);
-        //   this.setState({
-        //     display: display
-        //   });
-        //   joinNums = numbers.join('');
-        //   console.log('joinNums: ', joinNums);
-        //   this.setState({
-        //     input: joinNums
-        //   })
-        // }
+        // executes the if statement when add an operator
         if (operator !== '') {
           total.push(joinNums);
           numbers = [];
-          console.log('total ', total);
-        console.log('op join nums ', joinNums);
-        display.push(operator);
-        this.setState({
-          display: display
-        });
-        total.push(operator);
-        operator = '';
-
+          display.push(operator);
+          this.setState({
+            display: display
+          });
+          total.push(operator);
+          operator = '';
         }
 
+        // to add a deminal point after zero
         if (display === "0.") {
           for (let i = 0; i < CAL_NUMBERS.length; i++) {
             if (event.target.id === CAL_NUMBERS[i].id) {
@@ -138,34 +113,30 @@
             input: joinNums
           });
           numbers = [];
-        }
-        else
-          if (event.target.id === 'zero' && numbers.length === 0) {
+          // to prevent input of multiple zeros
+        } else if (event.target.id === 'zero' && numbers.length === 0) {
             this.setState({
               display: 0
             });
-          }
-        else {
+          // to add whole integers
+        } else {
           for (let i = 0; i < CAL_NUMBERS.length; i++) {
             if (event.target.id === CAL_NUMBERS[i].id) {
               display.push(CAL_NUMBERS[i].number);
               numbers.push(CAL_NUMBERS[i].number);
             }
           }
-          console.log('display: ', display);
           this.setState({
             display: display
           });
           joinNums = numbers.join('');
-          console.log('joinNums: ', joinNums);
           this.setState({
             input: joinNums
           });
-          console.log(numbers);
         }
-
       }
 
+      // add operator +-*/
       opClickedHandler = (event) => {
         if (event.target.id === 'add') {
           operator = '+';
@@ -179,12 +150,9 @@
         if (event.target.id === 'divide') {
           operator = '/';
         }
-
-
-
-
       }
 
+      // calculates total
       equalsClickedHandler = () => {
         numbers = [];
         display.push('=');
@@ -192,24 +160,21 @@
           display: display
         });
         total.push(joinNums);
-
+        // convert total array to string
         let convertTotalToString = total.join('').toString();
+        // use eval() method to total calculation
         let newTotal = eval(convertTotalToString);
-
-        console.log('new total', newTotal);
         display.push(newTotal);
         joinNums = [newTotal];
         this.setState({
           display: display,
           input: joinNums
         });
-
-        total = [];
-        console.log('stored total ', joinNums)
+        total = []; //Reset total
       }
 
       decimalClickedHandlers = () => {
-        console.log('decimal ', numbers);
+        // execute if the number array is empty
         if (numbers.length === 0) {
           display.push('0.');
           numbers.push('0.');
@@ -217,14 +182,11 @@
             display: display,
             input: numbers
           });
-        } else if (numbers === '0.') {
-          this.setState({
-            display: display,
-            input: numbers
-          });
+          // add '.' to number array if numbers array doesn't already have '.' & if it has a integer >=1
         } else if (numbers !== '0.' && numbers >= 1 ) {
           display.push('.');
           numbers.push('.');
+          // number array has >= 2 items & check last item in the numbers array = number
         } else if (numbers.length >= 2 && typeof numbers[numbers.length-1] === "number"
         && numbers.includes('.') === false) {
           display.push('.');
