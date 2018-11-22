@@ -64,30 +64,84 @@
       operator: 'x'
     }, {
       id: 'divide',
-      operator: '%'
+      operator: '/'
     }];
 
     let numbers = [];
+    let operator = '';
+    let display = [];
+    let total = [];
+    let joinNums = [];
+    let firstNum = [];
 
     class App extends React.Component {
       constructor(props) {
         super(props);
         this.state = {
-          display: []
+          display: [],
+          total: [],
+          firstNum: [],
+          operator: '',
+          secondNum: []
         };
       }
 
       numberClickedHandler = (event) => {
         for (let i = 0; i < CAL_NUMBERS.length; i++) {
           if (event.target.id === CAL_NUMBERS[i].id) {
+            display.push(CAL_NUMBERS[i].number);
             numbers.push(CAL_NUMBERS[i].number);
           }
         }
-        console.log(numbers);
+        console.log('display: ', display);
         this.setState({
-          display: numbers
+          display: display
         });
 
+        joinNums = [...numbers];
+        joinNums = joinNums.join('');
+
+        console.log('joinNums: ', joinNums);
+
+      }
+
+      opClickedHandler = (event) => {
+        if (event.target.id === 'add') {
+          operator = '+';
+        }
+        if (event.target.id === 'subtract') {
+          operator = '-';
+        }
+        if (event.target.id === 'multiply') {
+          operator = '*';
+        }
+        if (event.target.id === 'divide') {
+          operator = '/';
+        }
+
+        display.push(operator);
+        total.push(parseInt(joinNums, 10));
+        total.push(operator);
+        this.setState({
+          operator: operator,
+        });
+        numbers = [];
+        console.log('reset nums', numbers)
+        console.log('total ', total);
+      }
+
+      equalsClickHandler = () => {
+        display.push('=');
+        this.setState({
+          display: display
+        });
+        total.push(parseInt(joinNums, 10));
+
+        let newTotal = total.join('').toString();
+        let calculation = eval(newTotal)
+
+        console.log('new total', newTotal);
+        console.log(calculation);
       }
 
       render() {
@@ -96,6 +150,12 @@
             <div id="display">
               {this.state.display}
             </div>
+            <div>
+              {this.state.operator}
+              </div>
+            <div>
+              {this.state.subtotal}
+              </div>
 
             <div>
             {CAL_NUMBERS.map((numMapped, index) => {
@@ -118,6 +178,7 @@
                   PadOp={opMapped.operator}
                   id={opMapped.id}
                   key={index}
+                  opclicked={this.opClickedHandler}
                   />
               )
             })
@@ -130,7 +191,7 @@
             </div>
             <div>
               <button
-                id="equals">=
+                id="equals" onClick={this.equalsClickHandler}>=
               </button>
             </div>
             <div>
@@ -157,7 +218,8 @@
     const Operator = (props) => {
       return (
         <button
-          id={props.id}>
+          id={props.id}
+          onClick={props.opclicked}>
           {props.PadOp}
         </button>
       )
