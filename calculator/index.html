@@ -72,33 +72,36 @@
     let display = [];
     let total = [];
     let joinNums = [];
-    let firstNum = [];
+
 
     class App extends React.Component {
       constructor(props) {
         super(props);
         this.state = {
-          display: [0],
-          total: [],
-          firstNum: [],
-          operator: '',
-          secondNum: []
+          display: 0
         };
       }
 
       numberClickedHandler = (event) => {
-        for (let i = 0; i < CAL_NUMBERS.length; i++) {
-          if (event.target.id === CAL_NUMBERS[i].id) {
-            display.push(CAL_NUMBERS[i].number);
-            numbers.push(CAL_NUMBERS[i].number);
+        if (event.target.id === 'zero' && numbers.length === 0 || ) {
+          console.log('true');
+          this.setState({
+            display: 0
+          });
+        } else {
+          for (let i = 0; i < CAL_NUMBERS.length; i++) {
+            if (event.target.id === CAL_NUMBERS[i].id) {
+              display.push(CAL_NUMBERS[i].number);
+              numbers.push(CAL_NUMBERS[i].number);
+            }
           }
+          console.log('display: ', display);
+          this.setState({
+            display: display
+          });
+          joinNums = numbers.join('');
+          console.log('joinNums: ', joinNums);
         }
-        console.log('display: ', display);
-        this.setState({
-          display: display
-        });
-        joinNums = numbers.join('');
-        console.log('joinNums: ', joinNums);
       }
 
       opClickedHandler = (event) => {
@@ -119,9 +122,7 @@
         display.push(operator);
         total.push(joinNums);
         total.push(operator);
-        this.setState({
-          operator: operator,
-        });
+
         numbers = [];
         console.log('reset nums', numbers)
         console.log('total ', total);
@@ -147,6 +148,17 @@
         joinNums.push(newTotal);
         total = [];
         console.log('stored total ', joinNums)
+      }
+
+      resetClickedHandler = () => {
+        this.setState({
+          display: 0
+        });
+        numbers = [];
+        operator = '';
+        display = [];
+        total = [];
+        joinNums = [];
       }
 
       render() {
@@ -201,7 +213,7 @@
             </div>
             <div>
               <button
-                id="clear">A/C
+                id="clear" onClick={this.resetClickedHandler}>A/C
               </button>
             </div>
 
