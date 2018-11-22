@@ -86,12 +86,66 @@
 
 
       numberClickedHandler = (event) => {
-        if (event.target.id === 'zero' && numbers.length === 0) {
-          console.log('true');
+        // if (event.target.id === 'zero' && numbers.length[0] === 0) {
+        //   console.log('true');
+        //   this.setState({
+        //     display: 0
+        //   });
+        // } else {
+        //   for (let i = 0; i < CAL_NUMBERS.length; i++) {
+        //     if (event.target.id === CAL_NUMBERS[i].id) {
+        //       display.push(CAL_NUMBERS[i].number);
+        //       numbers.push(CAL_NUMBERS[i].number);
+        //     }
+        //   }
+        //   console.log('display: ', display);
+        //   this.setState({
+        //     display: display
+        //   });
+        //   joinNums = numbers.join('');
+        //   console.log('joinNums: ', joinNums);
+        //   this.setState({
+        //     input: joinNums
+        //   })
+        // }
+        if (operator !== '') {
+          total.push(joinNums);
+          numbers = [];
+          console.log('total ', total);
+        console.log('op join nums ', joinNums);
+        display.push(operator);
+        this.setState({
+          display: display
+        });
+        total.push(operator);
+        operator = '';
+
+        }
+
+        if (display === "0.") {
+          for (let i = 0; i < CAL_NUMBERS.length; i++) {
+            if (event.target.id === CAL_NUMBERS[i].id) {
+              display.push(CAL_NUMBERS[i].number);
+              numbers.push(CAL_NUMBERS[i].number);
+            }
+          }
           this.setState({
-            display: 0
+            display: display
           });
-        } else {
+          joinNums = numbers.join('');
+          console.log('joinNums: ', joinNums);
+          this.setState({
+            input: joinNums
+          });
+          numbers = [];
+        }
+        else
+          if (event.target.id === 'zero' && numbers.length === 0) {
+            this.setState({
+              display: 0
+            });
+          }
+        else {
           for (let i = 0; i < CAL_NUMBERS.length; i++) {
             if (event.target.id === CAL_NUMBERS[i].id) {
               display.push(CAL_NUMBERS[i].number);
@@ -106,8 +160,10 @@
           console.log('joinNums: ', joinNums);
           this.setState({
             input: joinNums
-          })
+          });
+          console.log(numbers);
         }
+
       }
 
       opClickedHandler = (event) => {
@@ -124,14 +180,9 @@
           operator = '/';
         }
 
-        console.log('op join nums ', joinNums);
-        display.push(operator);
-        total.push(joinNums);
-        total.push(operator);
 
-        numbers = [];
-        console.log('reset nums', numbers)
-        console.log('total ', total);
+
+
       }
 
       equalsClickedHandler = () => {
@@ -153,10 +204,32 @@
           input: joinNums
         });
 
-
-        // joinNums.push(newTotal);
         total = [];
         console.log('stored total ', joinNums)
+      }
+
+      decimalClickedHandlers = () => {
+        console.log('decimal ', numbers);
+        if (numbers.length === 0) {
+          display.push('0.');
+          numbers.push('0.');
+          this.setState({
+            display: display,
+            input: numbers
+          });
+        } else if (numbers === '0.') {
+          this.setState({
+            display: display,
+            input: numbers
+          });
+        } else if (numbers !== '0.' && numbers >= 1 ) {
+          display.push('.');
+          numbers.push('.');
+        } else if (numbers.length >= 2 && typeof numbers[numbers.length-1] === "number"
+        && numbers.includes('.') === false) {
+          display.push('.');
+          numbers.push('.');
+        }
       }
 
       resetClickedHandler = () => {
@@ -208,8 +281,7 @@
             })
             }
             <div>
-              <button
-                id="decimal">.
+              <button onClick={this.decimalClickedHandlers} id="decimal">.
               </button>
             </div>
             </div>
