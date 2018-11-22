@@ -78,7 +78,7 @@
       constructor(props) {
         super(props);
         this.state = {
-          display: [],
+          display: [0],
           total: [],
           firstNum: [],
           operator: '',
@@ -97,12 +97,8 @@
         this.setState({
           display: display
         });
-
-        joinNums = [...numbers];
-        joinNums = joinNums.join('');
-
+        joinNums = numbers.join('');
         console.log('joinNums: ', joinNums);
-
       }
 
       opClickedHandler = (event) => {
@@ -119,8 +115,9 @@
           operator = '/';
         }
 
+        console.log('op join nums ', joinNums);
         display.push(operator);
-        total.push(parseInt(joinNums, 10));
+        total.push(joinNums);
         total.push(operator);
         this.setState({
           operator: operator,
@@ -130,18 +127,26 @@
         console.log('total ', total);
       }
 
-      equalsClickHandler = () => {
+      equalsClickedHandler = () => {
+        numbers = [];
         display.push('=');
         this.setState({
           display: display
         });
-        total.push(parseInt(joinNums, 10));
+        total.push(joinNums);
 
-        let newTotal = total.join('').toString();
-        let calculation = eval(newTotal)
+        let convertTotalToString = total.join('').toString();
+        let newTotal = eval(convertTotalToString);
 
         console.log('new total', newTotal);
-        console.log(calculation);
+        display.push(newTotal);
+        this.setState({
+          display: display
+        });
+        joinNums = [];
+        joinNums.push(newTotal);
+        total = [];
+        console.log('stored total ', joinNums)
       }
 
       render() {
@@ -191,7 +196,7 @@
             </div>
             <div>
               <button
-                id="equals" onClick={this.equalsClickHandler}>=
+                id="equals" onClick={this.equalsClickedHandler}>=
               </button>
             </div>
             <div>
