@@ -7,19 +7,25 @@
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
 
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
     <style>
       body {
-        padding-top: 50px;
+        padding-top: 80px;
+        font-family: 'Roboto Mono', monospace;
+        background-color: #DBEAF8;
       }
 
       .calculator {
-        border: 1px dotted green;
+        border: 2px solid black;
+        border-radius: 2%;
         margin: 0 auto;
-        width: 400px;
+        width: 289px;
+        padding: 7px 7px 7px 7px;
+        background-color: black;
       }
 
       button {
-        border: 1px black solid;
+        border: 1px grey solid;
         background-color: gray;
         margin: 1px 1px 1px 1px;
         color: white;
@@ -27,10 +33,71 @@
 
       .num-buttons {
         background-color: #333333;
-        width: 60px;
-        height: 60px;
-        font-size: 2rem;
+        width: 70px;
+        height: 70px;
+        font-size: 1.5rem;
       }
+
+      .num-buttons-wrapper {
+        width: 218px;
+      }
+
+      .op-buttons {
+        width: 70px;
+        height: 70px;
+        font-size: 1.5rem;
+        background-color: #F79500;
+      }
+
+      .op-buttons-wrapper {
+        float: right;
+        display: flex;
+        flex-direction: column;
+        margin-top: -72px;
+      }
+
+      .equals-decimal-wrapper {
+        float: right;
+        margin-top: -72px;
+      }
+
+      #decimal {
+        width: 70px;
+        height: 70px;
+        font-size: 1.5rem;
+      }
+
+      #equals {
+        width: 70px;
+        height: 70px;
+        font-size: 1.5rem;
+      }
+
+      #zero {
+        width: 142px;
+      }
+
+      #clear {
+        width: 213px;
+        height: 70px;
+        font-size: 1.5rem;
+      }
+
+      #display {
+        text-align: right;
+        font-size: 2rem;
+        padding-right: 2px;
+        color: white;
+      }
+
+      #display-trail {
+        text-align: right;
+        font-size: 1rem;
+        padding-right: 2px;
+        padding-top: 5px;
+        color: white;
+      }
+
 
     </style>
   </head>
@@ -230,7 +297,7 @@
       render() {
         return (
           <div className="calculator">
-            <div>
+            <div id="display-trail">
               {this.state.display}
             </div>
 
@@ -244,7 +311,7 @@
               </button>
             </div>
 
-            <div>
+            <div className="op-buttons-wrapper">
             {ARITHMETIC_OPERATOR.map((opMapped, index) => {
               return (
                 <Operator
@@ -258,7 +325,7 @@
             }
             </div>
 
-            <div>
+            <div className="num-buttons-wrapper">
             {CAL_NUMBERS.map((numMapped, index) => {
               return (
                 <NumPad
@@ -272,12 +339,9 @@
             }
             </div>
 
-            <div>
+            <div className="equals-decimal-wrapper">
               <button onClick={this.decimalClickedHandlers} id="decimal">.
               </button>
-            </div>
-
-            <div>
               <button
                 id="equals" onClick={this.equalsClickedHandler}>=
               </button>
@@ -302,6 +366,7 @@
     const Operator = (props) => {
       return (
         <button
+          className="op-buttons"
           id={props.id}
           onClick={props.opclicked}>
           {props.PadOp}
