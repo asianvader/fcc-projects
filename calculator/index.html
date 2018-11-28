@@ -174,7 +174,7 @@
       }
 
       numberClickedHandler = (event) => {
-        // executes the if statement when add an operator
+        // executes the if statement when an operator is added
         if (operator !== '') {
           total.push(joinNums);
           numbers = [];
@@ -205,9 +205,13 @@
           numbers = [];
           // to prevent input of multiple zeros
         } else if (event.target.id === 'zero' && numbers.length === 0) {
+            display.push('0');
             this.setState({
-              input: 0
+              input: 0,
+              display: display
             });
+
+            joinNums = ['0'];
           // to add whole integers
         } else {
           for (let i = 0; i < CAL_NUMBERS.length; i++) {
@@ -248,7 +252,7 @@
         if (this.state.input === 0) {
           total.push('0');
           console.log('total 1', total);
-          display.push('0=');
+          display.push('=');
           let convertTotalToString = total.join('').toString();
           // use eval() method to total calculation
           let newTotal = eval(convertTotalToString);
