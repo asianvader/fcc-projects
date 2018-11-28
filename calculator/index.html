@@ -88,6 +88,7 @@
         font-size: 2rem;
         padding-right: 2px;
         color: white;
+        overflow: scroll;
       }
 
       #display-trail {
@@ -96,6 +97,7 @@
         padding-right: 2px;
         padding-top: 5px;
         color: white;
+        overflow: scroll;
       }
 
 
@@ -204,7 +206,7 @@
           // to prevent input of multiple zeros
         } else if (event.target.id === 'zero' && numbers.length === 0) {
             this.setState({
-              display: 0
+              input: 0
             });
           // to add whole integers
         } else {
@@ -242,23 +244,42 @@
 
       // calculates total
       equalsClickedHandler = () => {
-        numbers = [];
-        display.push('=');
-        this.setState({
-          display: display
-        });
-        total.push(joinNums);
-        // convert total array to string
-        let convertTotalToString = total.join('').toString();
-        // use eval() method to total calculation
-        let newTotal = eval(convertTotalToString);
-        display.push(newTotal);
-        joinNums = [newTotal];
-        this.setState({
-          display: display,
-          input: joinNums
-        });
-        total = []; //Reset total
+        // if zero is added after an operator
+        if (this.state.input === 0) {
+          total.push('0');
+          console.log('total 1', total);
+          display.push('0=');
+          let convertTotalToString = total.join('').toString();
+          // use eval() method to total calculation
+          let newTotal = eval(convertTotalToString);
+          display.push(newTotal);
+          joinNums = [newTotal];
+          this.setState({
+            display: display,
+            input: joinNums
+          });
+          total = []; //Reset total
+          // any other scenario
+        } else {
+          numbers = [];
+          display.push('=');
+          this.setState({
+            display: display
+          });
+          total.push(joinNums);
+          console.log('total 2', total);
+          // convert total array to string
+          let convertTotalToString = total.join('').toString();
+          // use eval() method to total calculation
+          let newTotal = eval(convertTotalToString);
+          display.push(newTotal);
+          joinNums = [newTotal];
+          this.setState({
+            display: display,
+            input: joinNums
+          });
+          total = []; //Reset total
+        }
       }
 
       decimalClickedHandlers = () => {
