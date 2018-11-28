@@ -11,6 +11,27 @@
       body {
         padding-top: 50px;
       }
+
+      .calculator {
+        border: 1px dotted green;
+        margin: 0 auto;
+        width: 400px;
+      }
+
+      button {
+        border: 1px black solid;
+        background-color: gray;
+        margin: 1px 1px 1px 1px;
+        color: white;
+      }
+
+      .num-buttons {
+        background-color: #333333;
+        width: 60px;
+        height: 60px;
+        font-size: 2rem;
+      }
+
     </style>
   </head>
 
@@ -22,9 +43,6 @@
     <script type="text/babel">
 
     const CAL_NUMBERS = [{
-      id: 'zero',
-      number: 0
-    }, {
       id: 'one',
       number: 1
     }, {
@@ -51,6 +69,9 @@
     }, {
       id: 'nine',
       number: 9
+    }, {
+      id: 'zero',
+      number: 0
     }];
 
     const ARITHMETIC_OPERATOR = [{
@@ -208,26 +229,19 @@
 
       render() {
         return (
-          <div>
+          <div className="calculator">
             <div>
               {this.state.display}
             </div>
+
             <div id="display">
               {this.state.input}
               </div>
 
             <div>
-            {CAL_NUMBERS.map((numMapped, index) => {
-              return (
-                <NumPad
-                  PadNum={numMapped.number}
-                  id={numMapped.id}
-                  key={index}
-                  numclick={this.numberClickedHandler}
-                  />
-              )
-            })
-            }
+              <button
+                id="clear" onClick={this.resetClickedHandler}>A/C
+              </button>
             </div>
 
             <div>
@@ -239,22 +253,33 @@
                   key={index}
                   opclicked={this.opClickedHandler}
                   />
-              )
-            })
+                )
+              })
             }
+            </div>
+
+            <div>
+            {CAL_NUMBERS.map((numMapped, index) => {
+              return (
+                <NumPad
+                  PadNum={numMapped.number}
+                  id={numMapped.id}
+                  key={index}
+                  numclick={this.numberClickedHandler}
+                  />
+                )
+              })
+            }
+            </div>
+
             <div>
               <button onClick={this.decimalClickedHandlers} id="decimal">.
               </button>
             </div>
-            </div>
+
             <div>
               <button
                 id="equals" onClick={this.equalsClickedHandler}>=
-              </button>
-            </div>
-            <div>
-              <button
-                id="clear" onClick={this.resetClickedHandler}>A/C
               </button>
             </div>
 
@@ -266,6 +291,7 @@
     const NumPad = (props) => {
       return (
         <button
+          className="num-buttons"
           id={props.id}
           onClick={props.numclick}>
           {props.PadNum}
