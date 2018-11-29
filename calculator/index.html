@@ -206,12 +206,14 @@
           // to prevent input of multiple zeros
         } else if (event.target.id === 'zero' && numbers.length === 0) {
             display.push('0');
+            numbers.push('0');
+            joinNums = numbers.join('');
+            numbers = [];
             this.setState({
-              input: 0,
-              display: display
+              display: display,
+              input: 0
             });
-
-            joinNums = ['0'];
+            console.log('zero');
           // to add whole integers
         } else {
           for (let i = 0; i < CAL_NUMBERS.length; i++) {
@@ -220,10 +222,12 @@
               numbers.push(CAL_NUMBERS[i].number);
             }
           }
+          console.log('numbers ', numbers);
           this.setState({
             display: display
           });
           joinNums = numbers.join('');
+          console.log('join ', joinNums);
           this.setState({
             input: joinNums
           });
@@ -256,6 +260,7 @@
           let convertTotalToString = total.join('').toString();
           // use eval() method to total calculation
           let newTotal = eval(convertTotalToString);
+          newTotal = parseFloat(newTotal.toFixed(4));
           display.push(newTotal);
           joinNums = [newTotal];
           this.setState({
@@ -276,6 +281,7 @@
           let convertTotalToString = total.join('').toString();
           // use eval() method to total calculation
           let newTotal = eval(convertTotalToString);
+          newTotal = parseFloat(newTotal.toFixed(4));
           display.push(newTotal);
           joinNums = [newTotal];
           this.setState({
@@ -288,20 +294,38 @@
 
       decimalClickedHandlers = () => {
         // execute if the number array is empty
-        if (numbers.length === 0) {
-          display.push('0.');
+        if (numbers.length === 0 && operator === '')  {
+          display.push('.');
           numbers.push('0.');
           this.setState({
             display: display,
             input: numbers
           });
+          console.log('decimal1');
+          // click on the decimal button after an operator
+        } else if (operator !== '') {
+          console.log('decimal2');
+          joinNums = numbers.join('');
+          total.push(joinNums);
+          total.push(operator);
+          numbers = [];
+          display.push(operator);
+          display.push('0.');
+          numbers.push('0.')
+          this.setState({
+            display: display,
+            input: numbers,
+          });
+          operator = '';
           // add '.' to number array if numbers array doesn't already have '.' & if it has a integer >=1
         } else if (numbers !== '0.' && numbers >= 1 ) {
+          console.log('decimal3');
           display.push('.');
           numbers.push('.');
-          // number array has >= 2 items & check last item in the numbers array = number
+          // number array has >= 2 items & check last item in the numbers array = number & doesn't already contain decimal point
         } else if (numbers.length >= 2 && typeof numbers[numbers.length-1] === "number"
         && numbers.includes('.') === false) {
+          console.log('decimal4');
           display.push('.');
           numbers.push('.');
         }
