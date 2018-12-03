@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Drum Machine</title>
+    <!-- REACT -->
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <!-- markdown -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.5.0/marked.js"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
+
+    <style>
+      body {
+        font-family: 'Raleway', sans-serif;
+        padding-top: 50px;
+        text-align: center;
+        background-color: #3E7DDD;
+      }
+
+      .drum-pad {
+        margin: 10px 10px 10px 10px;
+        max-width:
+      }
+
+      button {
+        height: 100px;
+        width: 100px;
+        font-size: 2rem;
+        border-radius: 10%;
+        border: solid black 1px;
+        box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.75);
+        background-color: #E53259;
+        color: white;
+
+      }
+
+      button:focus {
+        outline:0;
+      }
+
+      button:hover {
+        opacity: 0.7;
+      }
+
+      #drum-machine {
+        border: solid #E53259 5px;
+        background-color: #5899F3;
+        border-radius: 2%;
+        max-width: 400px;
+        margin: 0 auto;
+        padding-bottom: 30px;
+      }
+
+    </style>
+
+  </head>
+
+  <body>
+    <!-- HTML -->
+    <div id="root"></div>
+
+    <!-- REACT -->
+    <script type="text/babel">
+
+    const SOUNDS = [{
+        keyCode: 81,
+        keyTrigger: 'Q',
+        id: 'Heater-1',
+        url: 'https://s3.amazonaws.com/freecodecamp/drums/Heater-1.mp3'
+      }, {
+        keyCode: 87,
+        keyTrigger: 'W',
+        id: 'Heater-2',
+        url: 'https://s3.amazonaws.com/freecodecamp/drums/Heater-2.mp3'
+      }, {
+        keyCode: 69,
+        keyTrigger: 'E',
+        id: 'Heater-3',
+        url: 'https://s3.amazonaws.com/freecodecamp/drums/Heater-3.mp3'
+      }, {
+        keyCode: 65,
+        keyTrigger: 'A',
+        id: 'Heater-4',
+        url: 'https://s3.amazonaws.com/freecodecamp/drums/Heater-4_1.mp3'
+      }, {
+        keyCode: 83,
+        keyTrigger: 'S',
+        id: 'Clap',
+        url: 'https://s3.amazonaws.com/freecodecamp/drums/Heater-6.mp3'
+      }, {
+        keyCode: 68,
+        keyTrigger: 'D',
+        id: 'Open-HH',
+        url: 'https://s3.amazonaws.com/freecodecamp/drums/Dsc_Oh.mp3'
+      }, {
+        keyCode: 90,
+        keyTrigger: 'Z',
+        id: "Kick-n'-Hat",
+        url: 'https://s3.amazonaws.com/freecodecamp/drums/Kick_n_Hat.mp3'
+      }, {
+        keyCode: 88,
+        keyTrigger: 'X',
+        id: 'Kick',
+        url: 'https://s3.amazonaws.com/freecodecamp/drums/RP4_KICK_1.mp3'
+      }, {
+        keyCode: 67,
+        keyTrigger: 'C',
+        id: 'Closed-HH',
+        url: 'https://s3.amazonaws.com/freecodecamp/drums/Cev_H2.mp3'
+      },
+    ];
+
+    class App extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {
+          clipName: ''
+        };
+      }
+
+      componentDidMount() {
+        document.addEventListener('keydown', this.handleKeyPress);
+        console.log('keydown');
+      }
+
+      componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleKeyPress);
+        console.log('unmount keydown');
+      }
+
+      handleKeyPress = (event) => {
+        let key = '';
+        for (let i = 0; i < SOUNDS.length; i++) {
+          if (event.keyCode === SOUNDS[i].keyCode) {
+            this.setState({
+              clipName: SOUNDS[i].id,
+            });
+            key = SOUNDS[i].keyTrigger;
+          }
+        };
+        let audio = document.getElementById(key);
+        audio.play();
+      };
+
+      clickToPlayHandler = (event) => {
+        let key = '';
+        this.setState({
+          clipName: event.target.id
+        });
+        for (let i = 0; i < SOUNDS.length; i++) {
+          if (event.target.id === SOUNDS[i].id) {
+            key = SOUNDS[i].keyTrigger;
+          }
+        };
+        let audio = document.getElementById(key);
+        audio.play();
+      };
+
+      render() {
+        console.log('render');
+        return (
+          <div id="drum-machine">
+            <h1>Drum Machine</h1>
+            {SOUNDS.map((objectmapped, index) => {
+              return (
+                <DrumPad
+                  padname={objectmapped.keyTrigger}
+                  key={index}
+                  clicktoplay={this.clickToPlayHandler}
+                  url={objectmapped.url}
+                  keycode={objectmapped.keyCode}
+                  description={objectmapped.id}/>
+                )
+              })
+            }
+            <div id='display'>
+              <h2>Sound name: {this.state.clipName}</h2>
+            </div>
+          </div>
+        );
+      }
+    }
+/**
+* Drum pad component
+* Drum pad plays sound when you click on button
+**/
+    const DrumPad = (props) => {
+      return (
+        <button className="drum-pad"
+          id={props.description}
+          onClick={props.clicktoplay}>
+          {props.padname}
+          <audio className="clip" id={props.padname} src={props.url}></audio>
+        </button>
+      );
+    }
+
+      ReactDOM.render(<App />, document.getElementById('root'));
+
+    </script>
+
+    <!-- FCC tests -->
+    <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
+  </body>
+</html>
