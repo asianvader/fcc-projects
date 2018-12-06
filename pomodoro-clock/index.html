@@ -29,15 +29,42 @@
       constructor(props) {
         super(props);
         this.state = {
-
+          minutes: "25",
+          seconds: "00"
         };
+      }
+
+      countDownHandler = () => {
+        let minutes = this.state.minutes;
+        let counter = 0;
+        let timeleft = parseInt(minutes, 10) * 60;
+
+        function convertTotalSeconds(s) {
+          let min = Math.floor(s / 60);
+          let sec = s%60;
+          if (sec < 10) {
+            sec = "0"+sec;
+          }
+          if (min < 10) {
+            min = "0"+min;
+          }
+          console.log(min + ":" + sec);
+          document.getElementById("timer").innerHTML = min + ":" + sec;
+        }
+
+        function countDownSecs() {
+          counter++;
+          convertTotalSeconds(timeleft-counter);
+        }
+        setInterval(countDownSecs, 1000);
       }
 
       render() {
         return (
           <div>
-            HELLO
-            </div>
+            <p id="timer">{this.state.minutes}:{this.state.seconds}</p>
+            <button onClick={this.countDownHandler}>Countdown</button>
+          </div>
         );
       }
     }
