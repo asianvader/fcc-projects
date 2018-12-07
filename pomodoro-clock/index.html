@@ -36,14 +36,14 @@
       constructor(props) {
         super(props);
         this.state = {
-          minutes: "10",
+          minutes: "25",
           seconds: "00",
           status: "pause"
         };
       }
 
       playAndPauseHandler = () => {
-        // start countdown if status = "stop" and change status to "play"
+        // start countdown if status = "pause" and change status to "play"
         if (this.state.status == "pause") {
           this.setState({status: "play"});
           minutes = this.state.minutes;
@@ -78,7 +78,7 @@
           }
 
         } else {
-          // pause the countdown
+          // pause the countdown and change status to "pause"
           if (this.state.status =="play") {
             this.setState({status: "pause"})
             console.log('stop' + min + ":" + sec);
@@ -91,10 +91,19 @@
       render() {
         return (
           <div>
-          {this.state.minutes}:{this.state.seconds}
-            <p id="timer">{this.state.minutes}:{this.state.seconds}</p>
-            <button onClick={this.countDownHandler}>Countdown</button>
-            <button onClick={this.playAndPauseHandler}>Play/Pause</button>
+            <div>
+              <h2 id="session-label">Session Length</h2>
+            </div>
+            <div>
+              <h2 id="break-label">Break Length</h2>
+            </div>
+            <div>
+              <h2 id="timer-label">Session</h2>
+              <p id="timer-left">{this.state.minutes}:{this.state.seconds}</p>
+              <button id="start_stop" onClick={this.playAndPauseHandler}>Play/Pause</button>
+            </div>
+
+
             {this.state.status}
           </div>
         );
