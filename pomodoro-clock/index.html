@@ -29,37 +29,11 @@
       constructor(props) {
         super(props);
         this.state = {
-          minutes: "01",
+          minutes: "10",
           seconds: "00",
           status: "pause"
         };
       }
-
-      // countDownHandler = () => {
-      //   let minutes = this.state.minutes;
-      //   let counter = 0;
-      //   let timeleft = parseInt(minutes, 10) * 60;
-      //
-      //   function convertTotalSeconds(s) {
-      //     let min = Math.floor(s / 60);
-      //     let sec = s%60;
-      //     if (sec < 10) {
-      //       sec = "0"+sec;
-      //     }
-      //     if (min < 10) {
-      //       min = "0"+min;
-      //     }
-      //     console.log(min + ":" + sec);
-      //     document.getElementById("timer").innerHTML = min + ":" + sec;
-      //   }
-      //
-      //   function countDownSecs() {
-      //     counter++;
-      //     convertTotalSeconds(timeleft-counter);
-      //   }
-      //   let timeRemaining = setInterval(countDownSecs, 1000);
-      //   console.log(timeleft);
-      // }
 
       playAndPauseHandler = () => {
         let minutes = this.state.minutes;
@@ -67,25 +41,29 @@
         let timeleft = parseInt(minutes, 10) * 60;
         let remainingTime = 0;
         let interval;
+        let min = 0;
+        let sec = 0;
         // start countdown if status = "stop" and change status to "play"
         if (this.state.status == "pause") {
           this.setState({status: "play"});
 
-
-          function convertTotalSeconds(s) {
-            let min = Math.floor(s / 60);
-            let sec = s%60;
+          let convertTotalSeconds = (s) => {
+            min = Math.floor(s / 60);
+            sec = s%60;
             if (sec < 10) {
               sec = "0"+sec;
             }
             if (min < 10) {
               min = "0"+min;
             }
+            this.setState({
+              minutes: min,
+              seconds: sec
+            });
             console.log(min + ":" + sec);
-            document.getElementById("timer").innerHTML = min + ":" + sec;
           }
 
-          interval = setInterval(countDownSecs, 300);
+          interval = setInterval(countDownSecs, 1000);
 
           function countDownSecs() {
             counter++;
@@ -94,20 +72,18 @@
             if (counter == timeleft) {
               clearInterval(interval);
             }
-
           }
-
         } else {
           this.setState({status: "pause"})
+          console.log('stop' + min + ":" + sec);
+          clearInterval(interval);
         }
       }
 
       render() {
         return (
           <div>
-            <p>
-            {this.state.minutes}:{this.state.second}
-            </p>
+          {this.state.minutes}:{this.state.seconds}
             <p id="timer">{this.state.minutes}:{this.state.seconds}</p>
             <button onClick={this.countDownHandler}>Countdown</button>
             <button onClick={this.playAndPauseHandler}>Play/Pause</button>
