@@ -38,7 +38,8 @@
         this.state = {
           minutes: "25",
           seconds: "00",
-          status: "pause"
+          status: "pause",
+          break: "5"
         };
       }
 
@@ -88,19 +89,39 @@
         }
       }
 
+      resetHandler = () => {
+        this.setState({
+          minutes: "25",
+          seconds: "00",
+          status: "pause",
+          break: "5"
+        })
+      }
+
       render() {
         return (
           <div>
             <div>
-              <h2 id="session-label">Session Length</h2>
+              <h2 id="break-label">Break Length</h2>
+              <p id="break-length">{this.state.break}</p>
             </div>
             <div>
-              <h2 id="break-label">Break Length</h2>
+              <h2 id="session-label">Session Length</h2>
+              <p id="session-length">{this.state.minutes}</p>
             </div>
+
+            <div>
+              <button id="break-decrement"></button>
+              <button id="session-decrement"></button>
+              <button id="break-increment"></button>
+              <button id="session-increment"></button>
+            </div>
+
             <div>
               <h2 id="timer-label">Session</h2>
-              <p id="timer-left">{this.state.minutes}:{this.state.seconds}</p>
+              <p id="time-left">{this.state.minutes}:{this.state.seconds}</p>
               <button id="start_stop" onClick={this.playAndPauseHandler}>Play/Pause</button>
+              <button id="reset" onClick={this.resetHandler}>Reset</button>
             </div>
 
 
