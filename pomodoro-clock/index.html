@@ -24,6 +24,13 @@
     <!-- REACT -->
     <script type="text/babel">
 
+    let min = 0;
+    let sec = 0;
+    let counter = 0;
+    let interval;
+    let minutes = 0;
+    let timeleft = 0;
+    let seconds = 0;
 
     class App extends React.Component {
       constructor(props) {
@@ -36,16 +43,12 @@
       }
 
       playAndPauseHandler = () => {
-        let minutes = this.state.minutes;
-        let counter = 0;
-        let timeleft = parseInt(minutes, 10) * 60;
-        let remainingTime = 0;
-        let interval;
-        let min = 0;
-        let sec = 0;
         // start countdown if status = "stop" and change status to "play"
         if (this.state.status == "pause") {
           this.setState({status: "play"});
+          minutes = this.state.minutes;
+          seconds = this.state.seconds;
+          timeleft = (parseInt(minutes, 10) * 60) + (parseInt(seconds, 10));
 
           let convertTotalSeconds = (s) => {
             min = Math.floor(s / 60);
@@ -73,10 +76,15 @@
               clearInterval(interval);
             }
           }
+
         } else {
-          this.setState({status: "pause"})
-          console.log('stop' + min + ":" + sec);
-          clearInterval(interval);
+          // pause the countdown
+          if (this.state.status =="play") {
+            this.setState({status: "pause"})
+            console.log('stop' + min + ":" + sec);
+            clearInterval(interval);
+            counter = 0;
+          }
         }
       }
 
