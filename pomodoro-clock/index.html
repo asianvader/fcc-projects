@@ -37,14 +37,13 @@
         super(props);
         this.state = {
           type: "Session",
-          minutes: "01",
-          seconds: "00",
           status: "pause",
-          breakMins: "01",
-          breakSec: "05",
-          displayMins: "01",
+          sessionMins: "25",
+          sessionSec: "00",
+          breakMins: "5",
+          breakSec: "00",
+          displayMins: "25",
           displaySec: "00",
-          test: true
         };
       }
 
@@ -53,8 +52,8 @@
         if (this.state.status == "pause") {
           this.setState({status: "play"});
 
-          minutes = this.state.minutes;
-          seconds = this.state.seconds;
+          minutes = this.state.sessionMins;
+          seconds = this.state.sessionSec;
           timeleft = (parseInt(minutes, 10) * 60) + (parseInt(seconds, 10));
           interval = setInterval(() => countDownSecs(), 100);
 
@@ -81,13 +80,12 @@
             if (counter == timeleft) {
               clearInterval(interval);
               counter = 0;
-              console.log("back to break");
               this.setState({type: "Break"});
               minutes = this.state.breakMins;
               seconds = this.state.breakSec;
               console.log("break ", minutes + seconds);
               timeleft = (parseInt(minutes, 10) * 60) + (parseInt(seconds, 10));
-              interval = setInterval(() => breakCountDown(), 200);
+              interval = setInterval(() => breakCountDown(), 1000);
             }
           }
 
@@ -95,21 +93,19 @@
             counter++;
             convertTotalSeconds(timeleft-counter);
             if (counter == timeleft) {
-              console.log("back to session");
               clearInterval(interval);
               counter = 0;
               this.setState({type: "Session"});
-              minutes = this.state.minutes;
-              console.log(minutes);
-              seconds = this.state.seconds;
+              minutes = this.state.sessionMins;
+              seconds = this.state.sessionSec;
               timeleft = (parseInt(minutes, 10) * 60) + (parseInt(seconds, 10));
               console.log("session ", minutes + seconds);
-              interval = setInterval(() => countDownSecs(), 200);
+              interval = setInterval(() => countDownSecs(), 1000);
             }
           }
         } else {
           // pause the countdown and change status to "pause"
-          if (this.state.status =="play") {
+          if (this.state.status === "play") {
             this.setState({status: "pause"})
             console.log('stop' + min + ":" + sec);
             clearInterval(interval);
@@ -120,11 +116,43 @@
 
       resetHandler = () => {
         this.setState({
-          minutes: "25",
-          seconds: "00",
+          type: "Session",
           status: "pause",
-          break: "5"
-        })
+          sessionMins: "25",
+          sessionSec: "00",
+          breakMins: "5",
+          breakSec: "00",
+          displayMins: "25",
+          displaySec: "00",
+        });
+        clearInterval(interval);
+        counter = 0;
+      }
+
+      breakDecrementHandler = () => {
+        let breakDec = parseInt(this.state.breakMins, 10) - 1;
+        this.setState({breakMins: breakDec});
+      }
+
+      sessionDecrementHandler = () => {
+        let sessionDec = parseInt(this.state.sessionMins, 10) - 1;
+        this.setState({
+          sessionMins: sessionDec,
+          displayMins: sessionDec
+        });
+      }
+
+      breakIncrementHandler = () => {
+        let breakInc = parseInt(this.state.breakMins, 10) + 1;
+        this.setState({breakMins: breakInc});
+      }
+
+      sessionIncrementHandler = () => {
+        let sessionInc = parseInt(this.state.sessionMins, 10) + 1;
+        this.setState({
+          sessionMins: sessionInc,
+          displayMins: sessionInc
+        });
       }
 
       render() {
@@ -136,14 +164,14 @@
             </div>
             <div>
               <h2 id="session-label">Session Length</h2>
-              <p id="session-length">{this.state.minutes}</p>
+              <p id="session-length">{this.state.sessionMins}</p>
             </div>
 
             <div>
-              <button id="break-decrement"></button>
-              <button id="session-decrement"></button>
-              <button id="break-increment"></button>
-              <button id="session-increment"></button>
+              <button id="break-decrement" onClick={this.breakDecrementHandler}>Break Dec</button>
+              <button id="session-decrement" onClick={this.sessionDecrementHandler}>Session Dec</button>
+              <button id="break-increment" onClick={this.breakIncrementHandler}>Break Inc</button>
+              <button id="session-increment" onClick={this.sessionIncrementHandler}>Session Inc</button>
             </div>
 
             <div>
