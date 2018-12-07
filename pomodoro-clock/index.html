@@ -36,10 +36,15 @@
       constructor(props) {
         super(props);
         this.state = {
-          minutes: "25",
+          type: "Session",
+          minutes: "01",
           seconds: "00",
           status: "pause",
-          break: "5"
+          breakMins: "01",
+          breakSec: "05",
+          displayMins: "01",
+          displaySec: "00",
+          test: true
         };
       }
 
@@ -47,9 +52,11 @@
         // start countdown if status = "pause" and change status to "play"
         if (this.state.status == "pause") {
           this.setState({status: "play"});
+
           minutes = this.state.minutes;
           seconds = this.state.seconds;
           timeleft = (parseInt(minutes, 10) * 60) + (parseInt(seconds, 10));
+          interval = setInterval(() => countDownSecs(), 100);
 
           let convertTotalSeconds = (s) => {
             min = Math.floor(s / 60);
@@ -61,23 +68,45 @@
               min = "0"+min;
             }
             this.setState({
-              minutes: min,
-              seconds: sec
+              displayMins: min,
+              displaySec: sec
             });
             console.log(min + ":" + sec);
           }
 
-          interval = setInterval(countDownSecs, 1000);
-
-          function countDownSecs() {
+          let countDownSecs = () => {
             counter++;
             convertTotalSeconds(timeleft-counter);
 
             if (counter == timeleft) {
               clearInterval(interval);
+              counter = 0;
+              console.log("back to break");
+              this.setState({type: "Break"});
+              minutes = this.state.breakMins;
+              seconds = this.state.breakSec;
+              console.log("break ", minutes + seconds);
+              timeleft = (parseInt(minutes, 10) * 60) + (parseInt(seconds, 10));
+              interval = setInterval(() => breakCountDown(), 200);
             }
           }
 
+          let breakCountDown = () => {
+            counter++;
+            convertTotalSeconds(timeleft-counter);
+            if (counter == timeleft) {
+              console.log("back to session");
+              clearInterval(interval);
+              counter = 0;
+              this.setState({type: "Session"});
+              minutes = this.state.minutes;
+              console.log(minutes);
+              seconds = this.state.seconds;
+              timeleft = (parseInt(minutes, 10) * 60) + (parseInt(seconds, 10));
+              console.log("session ", minutes + seconds);
+              interval = setInterval(() => countDownSecs(), 200);
+            }
+          }
         } else {
           // pause the countdown and change status to "pause"
           if (this.state.status =="play") {
@@ -103,7 +132,7 @@
           <div>
             <div>
               <h2 id="break-label">Break Length</h2>
-              <p id="break-length">{this.state.break}</p>
+              <p id="break-length">{this.state.breakMins}</p>
             </div>
             <div>
               <h2 id="session-label">Session Length</h2>
@@ -118,8 +147,8 @@
             </div>
 
             <div>
-              <h2 id="timer-label">Session</h2>
-              <p id="time-left">{this.state.minutes}:{this.state.seconds}</p>
+              <h2 id="timer-label">{this.state.type}</h2>
+              <p id="time-left">{this.state.displayMins}:{this.state.displaySec}</p>
               <button id="start_stop" onClick={this.playAndPauseHandler}>Play/Pause</button>
               <button id="reset" onClick={this.resetHandler}>Reset</button>
             </div>
