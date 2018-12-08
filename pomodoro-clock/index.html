@@ -80,9 +80,11 @@
             if (counter === timeleft) {
               clearInterval(interval);
               counter = 0;
+              let audio = document.getElementById('beep');
+              audio.play();
               this.setState({type: "Break"});
               minutes = this.state.breakMins;
-              seconds = this.state.breakSec + 1;
+              seconds = parseInt(this.state.breakSec) + 1;
               console.log("break ", minutes + seconds);
               timeleft = (parseInt(minutes, 10) * 60) + (parseInt(seconds, 10));
               interval = setInterval(() => breakCountDown(), 1000);
@@ -95,9 +97,11 @@
             if (counter === timeleft) {
               clearInterval(interval);
               counter = 0;
+              let audio = document.getElementById('beep');
+              audio.play();
               this.setState({type: "Session"});
               minutes = this.state.sessionMins;
-              seconds = this.state.sessionSec + 1;
+              seconds = parseInt(this.state.sessionSec) + 1;
               timeleft = (parseInt(minutes, 10) * 60) + (parseInt(seconds, 10));
               console.log("session ", minutes + seconds);
               interval = setInterval(() => countDownSecs(), 1000);
@@ -127,6 +131,9 @@
         });
         clearInterval(interval);
         counter = 0;
+        let audio = document.getElementById('beep')
+        audio.pause();
+        audio.currentTime = 0;
       }
 
       breakDecrementHandler = () => {
@@ -136,7 +143,6 @@
             breakMins: breakDec
           });
         }
-
       }
 
       sessionDecrementHandler = () => {
@@ -192,6 +198,8 @@
               <button id="start_stop" onClick={this.playAndPauseHandler}>Play/Pause</button>
               <button id="reset" onClick={this.resetHandler}>Reset</button>
             </div>
+
+            <audio id="beep" src="https://s3.amazonaws.com/freecodecamp/drums/Chord_1.mp3" type="audio/mpeg"></audio>
 
 
             {this.state.status}
