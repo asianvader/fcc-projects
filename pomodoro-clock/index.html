@@ -38,12 +38,12 @@
         this.state = {
           type: "Session",
           status: "pause",
-          sessionMins: "25",
-          sessionSec: "00",
-          breakMins: "5",
-          breakSec: "00",
-          displayMins: "25",
-          displaySec: "00",
+          sessionMins: "00",
+          sessionSec: "10",
+          breakMins: "00",
+          breakSec: "10",
+          displayMins: "00",
+          displaySec: "10",
         };
       }
 
@@ -51,10 +51,6 @@
         // start countdown if status = "pause" and change status to "play"
         if (this.state.status === "pause") {
           this.setState({status: "play"});
-
-          if (this.state.displayMins === 0) {
-            console.log("zero!");
-          }
 
           minutes = this.state.displayMins;
           seconds = this.state.displaySec;
@@ -81,12 +77,12 @@
             counter++;
             convertTotalSeconds(timeleft-counter);
 
-            if (counter == timeleft) {
+            if (counter === timeleft) {
               clearInterval(interval);
               counter = 0;
               this.setState({type: "Break"});
               minutes = this.state.breakMins;
-              seconds = this.state.breakSec;
+              seconds = this.state.breakSec + 1;
               console.log("break ", minutes + seconds);
               timeleft = (parseInt(minutes, 10) * 60) + (parseInt(seconds, 10));
               interval = setInterval(() => breakCountDown(), 1000);
@@ -96,12 +92,12 @@
           let breakCountDown = () => {
             counter++;
             convertTotalSeconds(timeleft-counter);
-            if (counter == timeleft) {
+            if (counter === timeleft) {
               clearInterval(interval);
               counter = 0;
               this.setState({type: "Session"});
               minutes = this.state.sessionMins;
-              seconds = this.state.sessionSec;
+              seconds = this.state.sessionSec + 1;
               timeleft = (parseInt(minutes, 10) * 60) + (parseInt(seconds, 10));
               console.log("session ", minutes + seconds);
               interval = setInterval(() => countDownSecs(), 1000);
