@@ -49,13 +49,17 @@
 
       playAndPauseHandler = () => {
         // start countdown if status = "pause" and change status to "play"
-        if (this.state.status == "pause") {
+        if (this.state.status === "pause") {
           this.setState({status: "play"});
 
-          minutes = this.state.sessionMins;
-          seconds = this.state.sessionSec;
+          if (this.state.displayMins === 0) {
+            console.log("zero!");
+          }
+
+          minutes = this.state.displayMins;
+          seconds = this.state.displaySec;
           timeleft = (parseInt(minutes, 10) * 60) + (parseInt(seconds, 10));
-          interval = setInterval(() => countDownSecs(), 100);
+          interval = setInterval(() => countDownSecs(), 1000);
 
           let convertTotalSeconds = (s) => {
             min = Math.floor(s / 60);
@@ -130,29 +134,41 @@
       }
 
       breakDecrementHandler = () => {
-        let breakDec = parseInt(this.state.breakMins, 10) - 1;
-        this.setState({breakMins: breakDec});
+        if (parseInt(this.state.breakMins, 10) > 1) {
+          let breakDec = parseInt(this.state.breakMins, 10) - 1;
+          this.setState({
+            breakMins: breakDec
+          });
+        }
+
       }
 
       sessionDecrementHandler = () => {
-        let sessionDec = parseInt(this.state.sessionMins, 10) - 1;
-        this.setState({
-          sessionMins: sessionDec,
-          displayMins: sessionDec
-        });
+        if (parseInt(this.state.sessionMins, 10) > 1 ) {
+          let sessionDec = parseInt(this.state.sessionMins, 10) - 1;
+          this.setState({
+            sessionMins: sessionDec,
+            displayMins: sessionDec
+          });
+        }
       }
 
       breakIncrementHandler = () => {
-        let breakInc = parseInt(this.state.breakMins, 10) + 1;
-        this.setState({breakMins: breakInc});
+        if (parseInt(this.state.breakMins, 10) <= 59) {
+          let breakInc = parseInt(this.state.breakMins, 10) + 1;
+          this.setState({breakMins: breakInc});
+        }
       }
 
       sessionIncrementHandler = () => {
-        let sessionInc = parseInt(this.state.sessionMins, 10) + 1;
-        this.setState({
-          sessionMins: sessionInc,
-          displayMins: sessionInc
-        });
+        if (parseInt(this.state.sessionMins, 10) <= 59) {
+          let sessionInc = parseInt(this.state.sessionMins, 10) + 1;
+          this.setState({
+            sessionMins: sessionInc,
+            displayMins: sessionInc
+          });
+        }
+
       }
 
       render() {
