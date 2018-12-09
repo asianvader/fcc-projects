@@ -107,6 +107,13 @@
         padding: 5px 10px 5px 10px;
       }
 
+      #copyright {
+        font-size: 0.8rem;
+        color: dark-grey;
+        text-align: center;
+        margin-top: 20px;
+      }
+
     </style>
   </head>
 
@@ -267,35 +274,38 @@
 
       render() {
         return (
-          <div className="container">
-            <h1>Pomodoro Clock</h1>
-            <div id="break">
-              <h2 id="break-label">Break Length</h2>
-              <p id="break-length">{this.state.breakMins}</p>
-            </div>
-            <div id="session">
-              <h2 id="session-label">Session Length</h2>
-              <p id="session-length">{this.state.sessionMins}</p>
-            </div>
-
-            <div id="inc-dec">
-              <button id="break-decrement" onClick={this.breakDecrementHandler}>-1</button>
-              <button id="break-increment" onClick={this.breakIncrementHandler}>+1</button>
-              <button id="session-decrement" onClick={this.sessionDecrementHandler}>-1</button>
-              <button id="session-increment" onClick={this.sessionIncrementHandler}>+1</button>
-            </div>
-
-            <div id="timer">
-              <h2 id="timer-label">{this.state.type}</h2>
-              <h3 id="time-left">{this.state.displayMins}:{this.state.displaySec}</h3>
-              <button id="start_stop" onClick={this.playAndPauseHandler}>Play/Pause</button>
-              <div>
-                  <button id="reset" onClick={this.resetHandler}>Reset</button>
+          <div>
+            <div className="container">
+              <h1>Pomodoro Clock</h1>
+              <div id="break">
+                <h2 id="break-label">Break Length</h2>
+                <p id="break-length">{this.state.breakMins}</p>
+              </div>
+              <div id="session">
+                <h2 id="session-label">Session Length</h2>
+                <p id="session-length">{this.state.sessionMins}</p>
               </div>
 
-            </div>
+              <div id="inc-dec">
+                <button id="break-decrement" onClick={this.breakDecrementHandler}>-1</button>
+                <button id="break-increment" onClick={this.breakIncrementHandler}>+1</button>
+                <button id="session-decrement" onClick={this.sessionDecrementHandler}>-1</button>
+                <button id="session-increment" onClick={this.sessionIncrementHandler}>+1</button>
+              </div>
 
-            <audio id="beep" src="https://s3.amazonaws.com/freecodecamp/drums/Chord_1.mp3" type="audio/mpeg"></audio>
+              <div id="timer">
+                <h2 id="timer-label">{this.state.type}</h2>
+                <h3 id="time-left">{this.state.displayMins}:{this.state.displaySec}</h3>
+                <button id="start_stop" onClick={this.playAndPauseHandler}>Play/Pause</button>
+                <div>
+                    <button id="reset" onClick={this.resetHandler}>Reset</button>
+                </div>
+              </div>
+
+              <audio id="beep" src="https://s3.amazonaws.com/freecodecamp/drums/Chord_1.mp3" type="audio/mpeg"></audio>
+
+            </div>
+            <p id="copyright">&copy; 2018 Phoebe Voong-Fadel | The Coding Hamster. All rights reserved.</p>
           </div>
         );
       }
