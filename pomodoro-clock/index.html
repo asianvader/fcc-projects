@@ -7,11 +7,104 @@
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
 
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
     <style>
       body {
         padding-top: 80px;
-        font-family: 'Roboto Mono', monospace;
+        font-family: 'Righteous', cursive;
+        text-align: center;
+        background-color: #6ed0ec;
+      }
+
+      h2 {
+        font-size: 1.8rem;
+        color: white;
+        margin-bottom: 10px;
+      }
+
+      h1 {
+        color: white;
+        font-size: 2.1rem;
+      }
+
+      .container {
+        border: 5px solid #005670;
+        margin: 0 auto;
+        width: 600px;
+        padding: 0 30px 30px 30px;
+        border-radius: 15%;
+        background-color: #0CA7D3;
+
+      }
+
+      #time-left {
+        margin-bottom: 10px;
+      }
+
+      #break {
+        float: left;
+        display: flex;
+        flex-direction: column;
+      }
+
+      #session {
+        float: right;
+        display: flex;
+        flex-direction: column;
+      }
+
+      #inc-dec {
+        margin-top: 150px;
+      }
+
+      #break-increment {
+        margin-right: 340px;
+        margin-left: 10px;
+      }
+
+      #break-decrement {
+        margin-left: -20px;
+      }
+
+      #session-increment {
+        margin-left: 10px;
+      }
+
+      p {
+        margin-top: 0;
+        margin-bottom: 0;
+        font-size: 2rem;
+        color: #005670;
+      }
+
+      #timer {
+        border: 3px solid #005670;
+        border-radius: 15%;
+        margin-left: 200px;
+        margin-right: 200px;
+        padding-bottom: 20px;
+        font-size: rem;
+      }
+
+      #reset {
+        margin-top: 10px;
+        color: #F95759;
+      }
+
+      h3 {
+        color: #005670;
+        font-size: 3rem;
+        margin-top: 0;
+      }
+
+      button {
+        font-size: 1rem;
+        font-family: 'Share Tech Mono', monospace;
+        border: none;
+        background-color: #005670;
+        color: white;
+        padding: 5px 10px 5px 10px;
       }
 
     </style>
@@ -38,12 +131,12 @@
         this.state = {
           type: "Session",
           status: "pause",
-          sessionMins: "00",
-          sessionSec: "10",
-          breakMins: "00",
-          breakSec: "10",
-          displayMins: "00",
-          displaySec: "10",
+          sessionMins: "25",
+          sessionSec: "00",
+          breakMins: "5",
+          breakSec: "00",
+          displayMins: "25",
+          displaySec: "00",
         };
       }
 
@@ -131,7 +224,7 @@
         });
         clearInterval(interval);
         counter = 0;
-        let audio = document.getElementById('beep')
+        let audio = document.getElementById('beep');
         audio.pause();
         audio.currentTime = 0;
       }
@@ -170,44 +263,43 @@
             displayMins: sessionInc
           });
         }
-
       }
 
       render() {
         return (
-          <div>
-            <div>
+          <div className="container">
+            <h1>Pomodoro Clock</h1>
+            <div id="break">
               <h2 id="break-label">Break Length</h2>
               <p id="break-length">{this.state.breakMins}</p>
             </div>
-            <div>
+            <div id="session">
               <h2 id="session-label">Session Length</h2>
               <p id="session-length">{this.state.sessionMins}</p>
             </div>
 
-            <div>
-              <button id="break-decrement" onClick={this.breakDecrementHandler}>Break Dec</button>
-              <button id="session-decrement" onClick={this.sessionDecrementHandler}>Session Dec</button>
-              <button id="break-increment" onClick={this.breakIncrementHandler}>Break Inc</button>
-              <button id="session-increment" onClick={this.sessionIncrementHandler}>Session Inc</button>
+            <div id="inc-dec">
+              <button id="break-decrement" onClick={this.breakDecrementHandler}>-1</button>
+              <button id="break-increment" onClick={this.breakIncrementHandler}>+1</button>
+              <button id="session-decrement" onClick={this.sessionDecrementHandler}>-1</button>
+              <button id="session-increment" onClick={this.sessionIncrementHandler}>+1</button>
             </div>
 
-            <div>
+            <div id="timer">
               <h2 id="timer-label">{this.state.type}</h2>
-              <p id="time-left">{this.state.displayMins}:{this.state.displaySec}</p>
+              <h3 id="time-left">{this.state.displayMins}:{this.state.displaySec}</h3>
               <button id="start_stop" onClick={this.playAndPauseHandler}>Play/Pause</button>
-              <button id="reset" onClick={this.resetHandler}>Reset</button>
+              <div>
+                  <button id="reset" onClick={this.resetHandler}>Reset</button>
+              </div>
+
             </div>
 
             <audio id="beep" src="https://s3.amazonaws.com/freecodecamp/drums/Chord_1.mp3" type="audio/mpeg"></audio>
-
-
-            {this.state.status}
           </div>
         );
       }
     }
-
 
     ReactDOM.render(<App />, document.getElementById('root'));
 
